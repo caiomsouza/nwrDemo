@@ -9,6 +9,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -66,13 +67,14 @@ public class Demo implements AutoCloseable {
     class TopicListener implements Listener, AutoCloseable {
         final String topic;
         final Logger logger;
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 
         BufferedWriter writer;
 
         TopicListener(final String topic) throws Exception {
             this.topic = topic;
             this.logger = LoggerFactory.getLogger(topic);
-            this.writer = new BufferedWriter(new FileWriter("output/" + topic + "_" + LocalDateTime.now() + ".json"));
+            this.writer = new BufferedWriter(new FileWriter("output/" + topic + "_" + LocalDateTime.now().format(formatter) + ".json"));
         }
 
         @Override
